@@ -1,0 +1,49 @@
+2009-08-11
+Same this than yesterday. I didn't think that this feature would have needed as much time...
+
+2009-08-10
+Initial work on USerAgent policy
+
+2009-08-04
+Introducing max downloa and upload restrictions
+bug correction when writing the config
+
+2009-08-04
+Rework the GUI with different pages easily readable
+Segment php files in different files shorter and easier to maintain
+Rework parts of the code according the previous sentence
+
+2009-08-03
+Now it's possible to change the error lang page
+Initial new theme
+
+2009-08-02
+Begin to implement an information page
+
+2009-07-28
+offline_mode bug correction
+sloccount :
+php:            433 (97.96%)
+sh:               9 (2.04%)
+cache management should be sufficient for now
+
+
+2009-07-22
+New main form bug corrections
+Continue implementing cache management...
+
+2009-07-22
+GUI bug corrections
+Begin to implement cache form parsing
+
+2009-07-21
+Implement gui-part for cache managment
+Sanitize some inputs
+
+2009-07-17 :
+Add MAC-based filtering
+Remove lot crappy code : Similar function with a different name. 150 LOC removed
+Better look (yes it's possible!)
+Now the interface is in english
+add the ability to log access
+
