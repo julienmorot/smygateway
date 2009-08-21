@@ -28,6 +28,7 @@ $config['squid']['unrestrictedmacFile']=$_SERVER["DOCUMENT_ROOT"]."config/squid/
 $config['squid']['bannedmacFile']=$_SERVER["DOCUMENT_ROOT"]."config/squid/bannedMAC";
 $config['squid']['dstnocacheFile']=$_SERVER["DOCUMENT_ROOT"]."config/squid/dst_NoCache";
 $config['squid']['daemoncfgFile']=$_SERVER["DOCUMENT_ROOT"]."config/squid/squid.conf";
+$config['squid']['browsercfgFile']=$_SERVER["DOCUMENT_ROOT"]."config/squid/browserACL";
 $config['squid']['restartSquid']=$_SERVER["DOCUMENT_ROOT"]."scripts/restartsquid.sh";
 
 // Values
@@ -49,26 +50,26 @@ $ua_list = Array(
 	"GetRight" => "GetRight",
 	"Go!Zilla" => "Go!Zilla",
 	"Chrome" => "Chrome",
-	"Google Earth" => "kh_lt\/LT",
-	"Google Toolbar" => "Google\sToolbar",
-	"Microsoft Internet Explorer" => "MSIE.*[)]$",
+	"Google_Earth" => "kh_lt\/LT",
+	"Google_Toolbar" => "Google\sToolbar",
+	"Microsoft_Internet_Explorer" => "MSIE.*[)]$",
 	"Java" => "Java",
 	"Konqueror" => "Konqueror",
 	"Lynx" => "Lynx",
-	"Mac OSX Update" => "CFNetwork",
-	"Windows Media Player" => "Windows\-Media\-Player",
+	"Mac_OSX_Update" => "CFNetwork",
+	"Windows_Media_Player" => "Windows\-Media\-Player",
 	"Netscape" => "Netscape",
 	"Opera" => "Opera",
 	"Safari" => "Safari",
-	"Windows Genuine Advantage" => "LegitCheck",
+	"Windows_Genuine_Advantage" => "LegitCheck",
 	"Wget" => "Wget",
 	"APT" => "APT\-HTTP",
-	"Microsoft BITS" => "Microsoft\sBITS",
-	"Windows Update Agent" => "Windows\-Update\-Agent",
-	"Progressive Download" => "Progressive\sDownload",
-	"Windows Update" => "Windows\sUpdate",
-	"Industry Update Control" => "Industry\sUpdate\sControl",
-	"Service Pack Setup" => "Service\sPack\sSetup"
+	"Microsoft_BITS" => "Microsoft\sBITS",
+	"Windows_Update_Agent" => "Windows\-Update\-Agent",
+	"Progressive_Download" => "Progressive\sDownload",
+	"Windows_Update" => "Windows\sUpdate",
+	"Industry_Update_Control" => "Industry\sUpdate\sControl",
+	"Service_Pack_Setup" => "Service\sPack\sSetup"
 );
 
 

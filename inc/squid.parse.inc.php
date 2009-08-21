@@ -316,6 +316,60 @@ function proxy_get_request_body_max_size() {
 	return $config['squid']['main']['request_body_max_size'];
 }
 
+/**
+* browser filtering 
+*/
+function proxy_get_browser_filtering_status() {
+	global $config;
+	if ($config['squid']['browserACL']['BROWSER_FILTER'] == "on") {
+		return true;
+	} else { return false; }
+}
+
+function proxy_draw_browser_filtering_status() {
+	if (proxy_get_browser_filtering_status() == true) {
+		echo "checked=\"checked\"";
+	}
+}
+
+function proxy_get_browser_filtering_policy() {
+	global $config;
+	return $config['squid']['browserACL']['BROWSER_FILTER_POLICY'];
+}
+
+function proxy_draw_browser_filtering_policy($policy) {
+	global $config;
+	if (strcmp($config['squid']['browserACL']['BROWSER_FILTER_POLICY'], $policy) == 0) {
+		echo "checked=\"checked\"";
+	}
+}
+
+function proxy_draw_browser_filtering_useragent($useragent) {
+	global $config;
+	$uaArray = explode(",", $config['squid']['browserACL']['BROWSER_FILTER_UA']);
+	if (in_array($useragent, $uaArray)) {
+		return "checked=\"checked\"";
+	}
+}
+
+function proxy_draw_browser_filtering_squidconf() {
+	global $config;
+	$uaArray = explode(",", $config['squid']['browserACL']['BROWSER_FILTER_UA']);
+	$last = end($uaArray);
+	$squidconfacl = "";
+	foreach ($uaArray as $ua) {
+		if (($ua == $last) && ($ua != "")) {
+			$squidconfacl .= "(".$ua.")";
+		} else {
+			$squidconfacl .= "(".$ua.")|";
+		}
+	}
+	return $squidconfacl;
+}
+
+/**
+* main function to call individual parsing
+*/
 function proxy_do_parsing() {
 	global $config;
 	$config['squid']['main'] = proxy_parse_main_config($config['squid']['maincfgFile']);
@@ -327,6 +381,7 @@ function proxy_do_parsing() {
 	$config['squid']['unrestrictedmac'] = proxy_parse_list($config['squid']['unrestrictedmacFile']);
 	$config['squid']['bannedmac'] = proxy_parse_list($config['squid']['bannedmacFile']);
 	$config['squid']['dst_no_cache'] = proxy_parse_list($config['squid']['dstnocacheFile']);
+	$config['squid']['browserACL'] = proxy_parse_main_config($config['squid']['browsercfgFile']);
 }
 
 ?>

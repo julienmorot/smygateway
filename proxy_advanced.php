@@ -39,24 +39,27 @@ include('inc/header.php');
 <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
  <fieldset>
   <legend>Transfert limits :</legend>
-    Max download size (KB) : <input type="text" name="reply_body_max_size" size="5" maxlenght="5" value="<?php echo proxy_get_reply_body_max_size() ?>" /><br />
-    Max upload size (KB) : <input type="text" name="request_body_max_size" size="5" maxlenght="5" value="<?php echo proxy_get_request_body_max_size() ?>" /><br />
+    Max download size (KB) : <input type="text" name="reply_body_max_size" size="10" maxlenght="10" value="<?php echo proxy_get_reply_body_max_size() ?>" /><br />
+    Max upload size (KB) : <input type="text" name="request_body_max_size" size="10" maxlenght="10" value="<?php echo proxy_get_request_body_max_size() ?>" /><br />
  </fieldset>
  <br />
  <fieldset>
   <legend>Useragent authorizations :</legend>
-  Allow ony theses browser : <input type="checkbox" checked="checked" name="with_allowed_browser" /><br />
-  Default useragent policy :<br />
-  <input type="radio" name="ua_policy" value="ua_policy_allow">Allow <input type="radio" name="ua_policy" value="ua_policy_deny">Deny<br />
+  Enable User Agent filtering : <input type="checkbox" <?php proxy_draw_browser_filtering_status(); ?> name="ua_filter" /><br />
+  Default useragent policy :
+  <input type="radio" name="ua_policy" value="ua_policy_allow" <?php proxy_draw_browser_filtering_policy("allow"); ?> >Allow only...
+  <input type="radio" name="ua_policy" value="ua_policy_deny" <?php proxy_draw_browser_filtering_policy("deny"); ?> >Deny this list...<br />
   <br />
+  User agent list :<br />
   <table>
 <?php
 $i = 0;
-foreach ($ua_list as $ua_name => $us_sign) {
+foreach ($ua_list as $ua_name => $ua_sign) {
 	if ($i == 0) {
 		echo "<tr>\n";
 	}
-	echo "<td><input type=\"checkbox\" name=\"$ua_name\" />$ua_name</td>\n";
+	$checked = proxy_draw_browser_filtering_useragent($ua_name);
+	echo "<td><input type=\"checkbox\" $checked name=\"$ua_name\" />$ua_name</td>\n";
 	$i++;
 	if ($i == 3) {
 		echo "</tr>\n";

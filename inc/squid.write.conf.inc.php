@@ -60,9 +60,34 @@ function proxy_parse_general_form_settings() {
 
 function proxy_parse_advanced_form_settings() {
 	global $config;
+	global $ua_list;
 	$size = intval(cleanInput($_POST['reply_body_max_size'])) * 1024;
 	$config['squid']['main']['reply_body_max_size'] = $size." deny all";
 	$config['squid']['main']['request_body_max_size'] = cleanInput($_POST['request_body_max_size'])." KB";
+
+	$fd = fopen($config['squid']['browsercfgFile'], 'w+');
+	if ($_POST['ua_filter'] == "on") {
+		fwrite($fd, "BROWSER_FILTER=on\n");
+	} else {
+		fwrite($fd, "BROWSER_FILTER=off\n");
+	}
+	if (!isset($_POST['ua_policy'])) {
+		$_POST['ua_policy'] = "ua_policy_allow";
+	}
+	if ($_POST['ua_policy'] == "ua_policy_allow") {
+		fwrite($fd, "BROWSER_FILTER_POLICY=allow\n");
+	} else {
+		fwrite($fd, "BROWSER_FILTER_POLICY=deny\n");
+	}
+
+	$BROWSER_FILTER_UA = "BROWSER_FILTER_UA=";
+	foreach ($ua_list as $ua_name => $ua_sign) {
+		if (isset($_POST[$ua_name])) {
+			$BROWSER_FILTER_UA .= $ua_name.",";
+		}
+	}
+	$BROWSER_FILTER_UA = substr($BROWSER_FILTER_UA, 0, -1);
+	fwrite($fd, $BROWSER_FILTER_UA."\n");
 }
 
 /*
@@ -163,6 +188,12 @@ function proxy_write_squid_conf() {
 	fwrite($fd, "acl purge method PURGE\n");
 	fwrite($fd, "acl CONNECT method CONNECT\n");
 	fwrite($fd, "acl manager proto cache_object\n");
+
+	if (proxy_get_browser_filtering_status() == "on") {
+		$useragent_acl_name = "acl_useragent";
+		$acl = "acl ".$useragent_acl_name." browser ".proxy_draw_browser_filtering_squidconf()."\n";
+		fwrite($fd, $acl);
+	}
 	
 	$lines = proxy_parse_list($config['squid']['unrestrictedipFile']);
 	if (!empty($lines)) {
@@ -220,9 +251,13 @@ function proxy_write_squid_conf() {
 		fwrite($fd, "http_access allow Unrestricted_MAC\n");
 	}
 
+	if ((proxy_get_browser_filtering_status() == "on") && (proxy_get_browser_filtering_policy() == "deny")) {
+		fwrite($fd, "http_access deny useragent_acl\n");
+	}
+
 	$lines = proxy_parse_list($config['squid']['allowednetworksFile']);
 	if (!empty($lines)) {	
-		fwrite($fd, "http_access allow Allowed_networks\n");
+		fwrite($fd, "http_access allow Allowed_networks $useragent_acl_name\n");
 		fwrite($fd, "http_access allow CONNECT Allowed_networks\n");
 	}
 	
