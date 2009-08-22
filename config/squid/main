@@ -15,5 +15,5 @@ memory_replacement_policy=lru
 cache_replacement_policy=lru
 offline_mode=off
 error_directory=/usr/share/squid/errors/French
-reply_body_max_size=1024000 deny all
-request_body_max_size=0 KB
+reply_body_max_size=10240000 deny all
+request_body_max_size=10000 KB
