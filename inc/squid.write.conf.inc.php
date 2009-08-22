@@ -251,8 +251,6 @@ function proxy_write_squid_conf() {
 		fwrite($fd, "http_access allow Unrestricted_MAC\n");
 	}
 
-echo proxy_get_browser_filtering_status();
-echo proxy_get_browser_filtering_policy();
 	if ((proxy_get_browser_filtering_status() == "true") && (proxy_get_browser_filtering_policy() == "deny")) {
 		fwrite($fd, "http_access deny $useragent_acl_name\n");
 		$useragent_acl_name = "";
