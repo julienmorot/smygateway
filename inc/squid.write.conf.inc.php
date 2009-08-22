@@ -189,7 +189,7 @@ function proxy_write_squid_conf() {
 	fwrite($fd, "acl CONNECT method CONNECT\n");
 	fwrite($fd, "acl manager proto cache_object\n");
 
-	if (proxy_get_browser_filtering_status() == "on") {
+	if (proxy_get_browser_filtering_status() == "true") {
 		$useragent_acl_name = "acl_useragent";
 		$acl = "acl ".$useragent_acl_name." browser ".proxy_draw_browser_filtering_squidconf()."\n";
 		fwrite($fd, $acl);
@@ -251,8 +251,11 @@ function proxy_write_squid_conf() {
 		fwrite($fd, "http_access allow Unrestricted_MAC\n");
 	}
 
-	if ((proxy_get_browser_filtering_status() == "on") && (proxy_get_browser_filtering_policy() == "deny")) {
-		fwrite($fd, "http_access deny useragent_acl\n");
+echo proxy_get_browser_filtering_status();
+echo proxy_get_browser_filtering_policy();
+	if ((proxy_get_browser_filtering_status() == "true") && (proxy_get_browser_filtering_policy() == "deny")) {
+		fwrite($fd, "http_access deny $useragent_acl_name\n");
+		$useragent_acl_name = "";
 	}
 
 	$lines = proxy_parse_list($config['squid']['allowednetworksFile']);

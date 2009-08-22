@@ -354,14 +354,15 @@ function proxy_draw_browser_filtering_useragent($useragent) {
 
 function proxy_draw_browser_filtering_squidconf() {
 	global $config;
+	global $ua_list;
 	$uaArray = explode(",", $config['squid']['browserACL']['BROWSER_FILTER_UA']);
 	$last = end($uaArray);
 	$squidconfacl = "";
 	foreach ($uaArray as $ua) {
 		if (($ua == $last) && ($ua != "")) {
-			$squidconfacl .= "(".$ua.")";
+			$squidconfacl .= "(".$ua_list[$ua].")";
 		} else {
-			$squidconfacl .= "(".$ua.")|";
+			$squidconfacl .= "(".$ua_list[$ua].")|";
 		}
 	}
 	return $squidconfacl;
