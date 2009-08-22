@@ -191,7 +191,7 @@ function proxy_write_squid_conf() {
 
 	if (proxy_get_browser_filtering_status() == "true") {
 		$useragent_acl_name = "acl_useragent";
-		$acl = "acl ".$useragent_acl_name." browser ".proxy_draw_browser_filtering_squidconf()."\n";
+		$acl = "acl ".$useragent_acl_name." browser -i ".proxy_draw_browser_filtering_squidconf()."\n";
 		fwrite($fd, $acl);
 	}
 	
